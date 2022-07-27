@@ -33,7 +33,7 @@ export default function Cell(props: CellProps) {
                 type="text"
                 maxLength={1}
                 value={props.value}
-                className="w-full h-full text-center text-sm sm:text-2xl selection:bg-transparent cursor-default outline-none caret-transparent bg-transparent"
+                className="w-full h-full text-center text-sm sm:text-2xl selection:bg-transparent touch-none cursor-default outline-none caret-transparent bg-transparent"
             />}
         </div>
     );
