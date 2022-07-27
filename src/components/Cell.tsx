@@ -23,12 +23,17 @@ export default function Cell(props: CellProps) {
 
     return (
         <div
-            tabIndex={-1}
-            onClick={() => props.handleClick && props.handleClick(props.row, props.col)}
-            className={`relative flex justify-center items-end aspect-square overflow-hidden outline-none border-t border-l border-gray-500 ${bgColor}`}
+            className={`relative aspect-square overflow-hidden outline-none border-t border-l border-gray-500 ${bgColor}`}
         >
-            <p className="leading-none inline-block text-sm sm:text-2xl">{props.value}</p>
-            {props.number !== undefined && <p className="leading-none inline-block p-0.5 text-xs absolute top-0 left-0">{props.number}</p>}
+            {!props.block && <input
+                onClick={() => props.handleClick && props.handleClick(props.row, props.col)}
+                tabIndex={-1}
+                type="text"
+                maxLength={1}
+                value={props.value}
+                className="w-full h-full text-center text-sm sm:text-2xl cursor-default outline-none caret-transparent bg-transparent"
+            />}
+            {props.number && <p className="absolute top-0 left-0 p-0.5 text-xs leading-none">{props.number}</p>}
         </div>
     );
 }
