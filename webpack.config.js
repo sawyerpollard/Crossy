@@ -1,10 +1,11 @@
+require('dotenv').config()
 const path = require('path');
-const DotenvPlugin = require('dotenv-webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const { EnvironmentPlugin } = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -33,7 +34,7 @@ module.exports = {
         ],
     },
     plugins: [
-        new DotenvPlugin(),
+        new EnvironmentPlugin(['CROSSY_ORIGIN', 'CROSSY_ROOT']),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: '[name].css',
