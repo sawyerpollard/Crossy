@@ -25,15 +25,15 @@ export default function Cell(props: CellProps) {
         <div
             className={`relative aspect-square overflow-hidden outline-none border-t border-l border-gray-500 ${bgColor}`}
         >
+            {props.number && <p className="pointer-events-none absolute top-0 left-0 p-0.5 text-xs leading-none">{props.number}</p>}
             {!props.block && <input
                 onClick={() => props.handleClick && props.handleClick(props.row, props.col)}
                 tabIndex={-1}
                 type="text"
                 maxLength={1}
                 value={props.value}
-                className="w-full h-full text-center text-sm sm:text-2xl cursor-default outline-none caret-transparent bg-transparent"
+                className="w-full h-full text-center text-sm sm:text-2xl selection:bg-transparent cursor-default outline-none caret-transparent bg-transparent"
             />}
-            {props.number && <p className="absolute top-0 left-0 p-0.5 text-xs leading-none">{props.number}</p>}
         </div>
     );
 }
