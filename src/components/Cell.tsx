@@ -23,6 +23,7 @@ export default function Cell(props: CellProps) {
 
     return (
         <div
+            tabIndex={-1}
             onClick={() => props.handleClick && props.handleClick(props.row, props.col)}
             className={`relative flex justify-center items-end aspect-square overflow-hidden outline-none border-t border-l border-gray-500 ${bgColor}`}
         >
