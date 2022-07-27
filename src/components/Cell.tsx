@@ -28,7 +28,6 @@ export default function Cell(props: CellProps) {
             {props.number && <p className="pointer-events-none absolute top-0 left-0 p-0.5 text-xs leading-none">{props.number}</p>}
             {!props.block && <input
                 onClick={() => props.handleClick && props.handleClick(props.row, props.col)}
-                onContextMenu={(e) => e.preventDefault()}
                 tabIndex={-1}
                 type="text"
                 maxLength={1}
