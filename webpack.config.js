@@ -29,7 +29,17 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    {
+                        loader: 'prefix-css-loader',
+                        options: {
+                            selector: `#${process.env.CROSSY_ROOT}`,
+                        }
+                    },
+                    'postcss-loader'
+                ],
             },
         ],
     },
