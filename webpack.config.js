@@ -1,4 +1,5 @@
 const path = require('path');
+const DotenvPlugin = require('dotenv-webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -32,6 +33,7 @@ module.exports = {
         ],
     },
     plugins: [
+        new DotenvPlugin(),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: '[name].css',
