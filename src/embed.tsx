@@ -25,7 +25,7 @@ async function loadCrossy() {
         crossyContainer,
     );
 
-    injectCSS('/crossy.css');
+    injectCSS('crossy.css');
 
     return 'Crossy: Successfully loaded.';
 }
