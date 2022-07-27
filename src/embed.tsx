@@ -23,9 +23,7 @@ async function loadCrossy() {
 
     ReactDOM.render(
         <React.StrictMode>
-            <main className="max-h-screen container overflow-scroll mx-auto p-4">
-                <Crossy controller={new CrossyController(ipuz)} />
-            </main>
+            <Crossy controller={new CrossyController(ipuz)} />
         </React.StrictMode>,
         crossyRoot,
     );

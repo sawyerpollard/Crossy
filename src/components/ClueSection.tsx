@@ -27,7 +27,7 @@ function ClueList(props: { clues: Clue[]; focusedClue: Clue; handleClick: (clue:
     const clueItems = props.clues.map((clue, index) => (
         <ClueItem clue={clue} isFocused={clue === props.focusedClue} handleClick={props.handleClick} key={index} />
     ));
-    return <ul className="block max-h-96 text-sm overflow-y-scroll">{clueItems}</ul>;
+    return <ul className="block max-h-80 text-sm overflow-y-scroll">{clueItems}</ul>;
 }
 
 function ClueItem(props: { clue: Clue; isFocused: boolean; handleClick: (clue: Clue) => void }) {

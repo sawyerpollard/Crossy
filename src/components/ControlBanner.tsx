@@ -15,7 +15,7 @@ function ControlButton(props: { label: string; handleClick: () => void }) {
 
 export default function ControlBanner(props: ControlBannerProps) {
     return (
-        <div className="text-lg py-4 flex gap-4">
+        <div className="flex gap-4 text-lg">
             <ControlButton label="Clear Puzzle" handleClick={props.clearPuzzle} />
             <ControlButton label="Reveal Puzzle" handleClick={props.revealPuzzle} />
         </div>

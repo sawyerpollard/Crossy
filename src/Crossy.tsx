@@ -144,7 +144,7 @@ export default class Crossy extends React.Component<CrossyProps, CrossyState> {
         return (
             <div className="outline-none" tabIndex={-1} onKeyDown={this.handleKey}>
                 <div className="grid lg:grid-cols-2 gap-4 overflow-scroll">
-                    <div>
+                    <div className="flex flex-col gap-y-4">
                         <ClueBanner clue={this.controller.getFocusedClue()} />
                         <Grid width={this.controller.getWidth()} height={this.controller.getHeight()}>
                             {this.state.cells}
