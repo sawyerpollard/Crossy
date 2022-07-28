@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Crossy from './Crossy';
 import CrossyController from './lib/CrossyController';
-import fetchIpuz from './lib/fetchIpuz';
+import { fetchIpuz, cellsFromIpuz, cluesFromIpuz } from './lib/parser';
 import injectCSS from './lib/injectCSS';
 import './styles/tailwind.css';
 
@@ -15,18 +15,23 @@ async function loadCrossy() {
     const ipuzUrl = crossyRoot.getAttribute('ipuzUrl')
     if (!ipuzUrl) return 'Crossy: No ipuzUrl provided.'
 
-    const ipuz = await fetchIpuz(ipuzUrl);
-    if (!ipuz) return 'Crossy: Failed to load Ipuz.'
-
     const cssUrl = new URL('crossy.css', process.env.CROSSY_ORIGIN);
     injectCSS(cssUrl.href);
 
-    ReactDOM.render(
-        <React.StrictMode>
-            <Crossy controller={new CrossyController(ipuz)} />
-        </React.StrictMode>,
-        crossyRoot,
-    );
+    try {
+        const ipuz = await fetchIpuz(ipuzUrl);
+        const cells = cellsFromIpuz(ipuz);
+        const clues = cluesFromIpuz(ipuz);
+
+        ReactDOM.render(
+            <React.StrictMode>
+                <Crossy controller={new CrossyController(cells, clues)} />
+            </React.StrictMode>,
+            crossyRoot,
+        );
+    } catch (error: unknown) {
+        return 'Crossy: Failed to load Ipuz.';
+    }
 
     return 'Crossy: Successfully loaded.';
 }

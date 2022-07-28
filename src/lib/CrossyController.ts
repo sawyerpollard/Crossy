@@ -1,61 +1,14 @@
-import { Direction, CellValue, CellLocation, CellNumber, Cell, Clue, Ipuz } from './types';
+import { Direction, CellValue, CellLocation, CellNumber, Cell, Clue } from './types';
 
 const { Across, Down } = Direction;
 
 export default class CrossyController {
-    constructor(ipuz: Ipuz) {
-        const BLOCK = '#';
-        const EMPTY = '';
-        const UNNUMBERED = 0;
+    constructor(cells: Cell[][], clues: Record<Direction, Clue[]>) {
+        this.cells = cells;
+        this.clues = clues;
 
-        this.width = ipuz.dimensions.width;
-        this.height = ipuz.dimensions.height;
-
-        const cellValues = Array.from({ length: this.height }, () => Array(this.width).fill(EMPTY));
-        const cellAnswers = ipuz.solution;
-
-        const cellNumbers = ipuz.puzzle.map((row) => {
-            return row.map((value) => {
-                if (value === BLOCK || value === UNNUMBERED || value.cell === UNNUMBERED) return null;
-                return value.cell !== undefined ? value.cell : value;
-            });
-        });
-
-        const blockCells = ipuz.solution.map((row) => {
-            return row.map((value) => value === BLOCK);
-        });
-
-        this.cells = Array.from({ length: this.height }, () => []);
-        for (let i = 0; i < this.width; i++) {
-            for (let j = 0; j < this.height; j++) {
-                const cell: Cell = {
-                    isBlock: blockCells[i][j],
-                    number: cellNumbers[i][j],
-                    value: cellValues[i][j],
-                    answer: cellAnswers[i][j],
-                    location: [i, j],
-                };
-                this.cells[i][j] = cell;
-            }
-        }
-
-        this.clues[Across] = ipuz.clues.Across.map((clue, index) => {
-            return {
-                number: clue[0],
-                direction: Across,
-                message: clue[1],
-                index,
-            } as Clue;
-        });
-
-        this.clues[Down] = ipuz.clues.Down.map((clue, index) => {
-            return {
-                number: clue[0],
-                direction: Down,
-                message: clue[1],
-                index,
-            } as Clue;
-        });
+        this.width = this.cells[0].length;
+        this.height = this.cells.length;
 
         this.selectedClue = this.clues[Across][0];
     }
@@ -68,13 +21,10 @@ export default class CrossyController {
 
     private cells: Cell[][];
 
-    public clues: {
-        [Across]: Clue[];
-        [Down]: Clue[];
-    } = {
-            [Across]: [],
-            [Down]: [],
-        };
+    public clues: Record<Direction, Clue[]> = {
+        [Across]: [],
+        [Down]: [],
+    };
 
     private selectedClue: Clue;
 
@@ -183,7 +133,7 @@ export default class CrossyController {
         return this.getCellClue(this.getFocusedCell());
     }
 
-    getClue(number: number, direction: Direction): Clue {
+    getClue(number: CellNumber, direction: Direction): Clue {
         for (let clue of this.clues[direction]) {
             if (clue.number === number) return clue;
         }
@@ -198,7 +148,7 @@ export default class CrossyController {
     getCellClue(location: CellLocation): Clue {
         const focusDirection = this.getFocusDirection();
 
-        let cellNumber = 0;
+        let cellNumber: CellNumber = 0;
         if (focusDirection === Across) {
             let clueCell = location;
             while (!this.outOfBounds(clueCell) && !this.isBlock(clueCell)) {
@@ -282,7 +232,7 @@ export default class CrossyController {
         const focusedCell: CellLocation = this.getFocusedCell();
         let nextCell: CellLocation = [focusedCell[0] - 1, focusedCell[1]];
 
-        while (passBlocks && this.isBlock(nextCell) && !this.outOfBounds(nextCell)) {
+        while (passBlocks && !this.outOfBounds(nextCell) && this.isBlock(nextCell)) {
             nextCell = [nextCell[0] - 1, nextCell[1]];
         }
 
@@ -295,7 +245,7 @@ export default class CrossyController {
         const focusedCell: CellLocation = this.getFocusedCell();
         let nextCell: CellLocation = [focusedCell[0] + 1, focusedCell[1]];
 
-        while (passBlocks && this.isBlock(nextCell) && !this.outOfBounds(nextCell)) {
+        while (passBlocks && !this.outOfBounds(nextCell) && this.isBlock(nextCell)) {
             nextCell = [nextCell[0] + 1, nextCell[1]];
         }
 
@@ -308,7 +258,7 @@ export default class CrossyController {
         const focusedCell: CellLocation = this.getFocusedCell();
         let nextCell: CellLocation = [focusedCell[0], focusedCell[1] - 1];
 
-        while (passBlocks && this.isBlock(nextCell) && !this.outOfBounds(nextCell)) {
+        while (passBlocks && !this.outOfBounds(nextCell) && this.isBlock(nextCell)) {
             nextCell = [nextCell[0], nextCell[1] - 1];
         }
 
@@ -321,7 +271,7 @@ export default class CrossyController {
         const focusedCell: CellLocation = this.getFocusedCell();
         let nextCell: CellLocation = [focusedCell[0], focusedCell[1] + 1];
 
-        while (passBlocks && this.isBlock(nextCell) && !this.outOfBounds(nextCell)) {
+        while (passBlocks && !this.outOfBounds(nextCell) && this.isBlock(nextCell)) {
             nextCell = [nextCell[0], nextCell[1] + 1];
         }
 
